@@ -23,23 +23,28 @@ var Life;
       var neighbors, y, x;
       this.prevBoard = cloneArray(this.board);
 
-      for(var y = 0; y < this.height; y++) {
-        for(var x = 0; x < this.width; x++) {
-          var neighbors = this.aliveNeighbors(this.prevBoard, x, y);
+      for(y = 0; y < this.height; y++) {
+        for(x = 0; x < this.width; x++) {
+          neighbors = this.aliveNeighbors(this.prevBoard, x, y);
+          console.log(y, x, ':', neighbors);
         }
       }
     },
 
     aliveNeighbors: function(array, x, y) {
-      var sum;
+      var sum = 0;
+      var prevRow = array[y-1] || [];
+      var nextRow = array[y+1] || [];
 
       var neighbors = [
-        array[y-1][x-1], array[y-1][x], array[y-1][x+1],
+        prevRow[x-1], prevRow[x], prevRow[x+1],
         array[y][x-1], array[y][x+1],
-        array[y+1][x-1], array[y+1][x], array[y+1][x+1]
+        nextRow[x-1], nextRow[x], nextRow[x+1]
       ].forEach( function(a) {
+        // +undefined = NAN
+        // !!undefined = false
+        // +!!undefined = 0
         sum += +!!a;
-        console.log(sum);
       });
 
       return sum;
